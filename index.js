@@ -183,7 +183,9 @@ function getGoals(data) {
   });
 
   // Return the key corresponding to the maximum average number of goals
-  return Object.keys(teamGoals).reduce((a, b) => (teamGoals[a] > teamGoals[b] ? a : b));
+  return Object.keys(teamGoals).reduce((a, b) =>
+    teamGoals[a] > teamGoals[b] ? a : b,
+  );
 }
 
 console.log(getGoals(getFinals(fifaData)));
