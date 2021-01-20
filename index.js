@@ -4,7 +4,9 @@ import { fifaData } from './fifa.js';
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Practice accessing data by console.log-ing the following pieces of data note, you may want to filter the data first 😉*/
-let keyGame = fifaData.filter(game => game.Year === 2014 && game.Stage === "Final")[0];
+let keyGame = fifaData.filter(
+  (game) => game.Year === 2014 && game.Stage === 'Final',
+)[0];
 
 //(a) Home Team name for 2014 world cup final
 console.log(keyGame['Home Team Name']);
@@ -20,35 +22,34 @@ console.log(keyGame['Away Team Goals']);
 
 //(e) Winner of 2014 world cup final */
 function getKeyByValue(obj, value) {
-    return Object.keys(obj).find(key => obj[key] === value);
+  return Object.keys(obj).find((key) => obj[key] === value);
 }
 
 function getWinner(game, useInitials = false) {
-    const homeGoals = game['Home Team Goals'];
-    const awayGoals = game['Away Team Goals'];
-    let teamKeys = ['Home Team', 'Away Team'];
-    let winningTeam;
-    if (useInitials) {
-        teamKeys = teamKeys.map(key => key += ' Initials');
-    } else {
-        teamKeys = teamKeys.map(key => key += ' Name');
-    }
+  const homeGoals = game['Home Team Goals'];
+  const awayGoals = game['Away Team Goals'];
+  let teamKeys = ['Home Team', 'Away Team'];
+  let winningTeam;
+  if (useInitials) {
+    teamKeys = teamKeys.map((key) => (key += ' Initials'));
+  } else {
+    teamKeys = teamKeys.map((key) => (key += ' Name'));
+  }
 
-    if (homeGoals > awayGoals) {
-        winningTeam = game[teamKeys[0]];
-    } else if (homeGoals < awayGoals) {
-        winningTeam = game[teamKeys[1]];
-    } else {
-        winningTeam = game['Win conditions'].split(' ')[0];
-        if (useInitials) {
-            let winningTeamKey = getKeyByValue(game, winningTeam);
-            winningTeam = game[winningTeamKey.replace('Name', 'Initials')];
-        }
+  if (homeGoals > awayGoals) {
+    winningTeam = game[teamKeys[0]];
+  } else if (homeGoals < awayGoals) {
+    winningTeam = game[teamKeys[1]];
+  } else {
+    winningTeam = game['Win conditions'].split(' ')[0];
+    if (useInitials) {
+      let winningTeamKey = getKeyByValue(game, winningTeam);
+      winningTeam = game[winningTeamKey.replace('Name', 'Initials')];
     }
-    return winningTeam;
+  }
+  return winningTeam;
 }
 console.log(getWinner(keyGame));
-
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use getFinals to do the following:
@@ -59,7 +60,7 @@ hint - you should be looking at the stage key inside of the objects
 */
 
 function getFinals(data) {
-    return data.filter(game => game["Stage"] === "Final");
+  return data.filter((game) => game['Stage'] === 'Final');
 }
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -69,10 +70,8 @@ Use the higher-order function called getYears to do the following:
 3. Return an array called years containing all of the years in the getFinals data set*/
 
 function getYears(data, getFinals) {
-    return getFinals(data).map(game => game['Year']);
+  return getFinals(data).map((game) => game['Year']);
 }
-
-
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher-order function getWinners to do the following:
@@ -82,10 +81,8 @@ Use the higher-order function getWinners to do the following:
 4. Returns the names of all winning countries in an array called `winners` */
 
 function getWinners(data, getFinals) {
-    return getFinals(data).map(game => getWinner(game));
+  return getFinals(data).map((game) => getWinner(game));
 }
-
-
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher-order function getWinnersByYear to do the following:
@@ -98,16 +95,14 @@ hint: the strings returned need to exactly match the string in step 4.
  */
 
 function getWinnersByYear(data, getYears, getWinners) {
-    let years = getYears(data, getFinals);
-    let winners = getWinners(data, getFinals);
-    let result = [];
-    for (let i = 0; i < years.length; i++) {
-        result.push(`In ${years[i]}, ${winners[i]} won the world cup!`);
-    }
-    return result;
+  let years = getYears(data, getFinals);
+  let winners = getWinners(data, getFinals);
+  let result = [];
+  for (let i = 0; i < years.length; i++) {
+    result.push(`In ${years[i]}, ${winners[i]} won the world cup!`);
+  }
+  return result;
 }
-
-
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher order function getAverageGoals to do the following:
@@ -120,13 +115,15 @@ Use the higher order function getAverageGoals to do the following:
 */
 
 function getAverageGoals(data) {
-    let goalsSum = data.reduce((sum, game) => sum += (game['Home Team Goals'] + game['Away Team Goals']), 0);
-    let goalsAverage = goalsSum / data.length;
-    return Math.round((goalsAverage + Number.EPSILON) * 100) / 100;
+  let goalsSum = data.reduce(
+    (sum, game) => (sum += game['Home Team Goals'] + game['Away Team Goals']),
+    0,
+  );
+  let goalsAverage = goalsSum / data.length;
+  return Math.round((goalsAverage + Number.EPSILON) * 100) / 100;
 }
 
 console.log(getAverageGoals(getFinals(fifaData)));
-
 
 /// 🥅 STRETCH 🥅 ///
 
@@ -137,7 +134,7 @@ Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
 function getCountryWins(data, teamInitials) {
-    return data.filter(game => getWinner(game, true) === teamInitials).length;
+  return data.filter((game) => getWinner(game, true) === teamInitials).length;
 }
 
 console.log(getCountryWins(getFinals(fifaData), 'BRA'));
@@ -145,48 +142,48 @@ console.log(getCountryWins(getFinals(fifaData), 'BRA'));
 /* 💪💪💪💪💪 Stretch 2: 💪💪💪💪💪
 Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
 function getGoals(data) {
-    let teamGoals = {};
-    function processGoals(game) {
-        // Add number of goals for each team to teamGoals
-        function processTeam(team, goals) {
-            // Add number of goals for the team to teamGoals
-            if (goals > 0) {
-                if (team in teamGoals) {
-                    teamGoals[team].push(goals);
-                } else {
-                    teamGoals[team] = [goals];
-                }
-            }
-
+  let teamGoals = {};
+  function processGoals(game) {
+    // Add number of goals for each team to teamGoals
+    function processTeam(team, goals) {
+      // Add number of goals for the team to teamGoals
+      if (goals > 0) {
+        if (team in teamGoals) {
+          teamGoals[team].push(goals);
+        } else {
+          teamGoals[team] = [goals];
         }
-        let teamStrings = ['Home Team ', 'Away Team'];
-        let teams = teamStrings.map(str => game[str + 'Name']);
-        let goals = teamStrings.map(str => game[str + 'Goals']);
-
-        teams.forEach((team, i) => processTeam(team, goals[i]));
+      }
     }
+    let teamStrings = ['Home Team ', 'Away Team'];
+    let teams = teamStrings.map((str) => game[str + 'Name']);
+    let goals = teamStrings.map((str) => game[str + 'Goals']);
 
-    // Add number of goals for all games to teamGoals
-    data.forEach(game => processGoals(game));
+    teams.forEach((team, i) => processTeam(team, goals[i]));
+  }
 
-    // Combine all goal totals for Germany
-    let germanyTemp = [];
-    for (const team in teamGoals) {
-        if (team.startsWith('German')) {
-            germanyTemp.push(...teamGoals[team]);
-            delete teamGoals[team];
-        }
+  // Add number of goals for all games to teamGoals
+  data.forEach((game) => processGoals(game));
+
+  // Combine all goal totals for Germany
+  let germanyTemp = [];
+  for (const team in teamGoals) {
+    if (team.startsWith('German')) {
+      germanyTemp.push(...teamGoals[team]);
+      delete teamGoals[team];
     }
-    teamGoals['Germany'] = germanyTemp;
+  }
+  teamGoals['Germany'] = germanyTemp;
 
-    // Take the average of each country's goals
-    Object.keys(teamGoals).map(function (team) {
-        let goalArray = teamGoals[team];
-        teamGoals[team] = goalArray.reduce((sum, score) => sum += score, 0) / goalArray.length;
-    });
+  // Take the average of each country's goals
+  Object.keys(teamGoals).map(function (team) {
+    let goalArray = teamGoals[team];
+    teamGoals[team] =
+      goalArray.reduce((sum, score) => (sum += score), 0) / goalArray.length;
+  });
 
-    // Return the key corresponding to the maximum average number of goals
-    return Object.keys(teamGoals).reduce((a, b) => teamGoals[a] > teamGoals[b] ? a : b);
+  // Return the key corresponding to the maximum average number of goals
+  return Object.keys(teamGoals).reduce((a, b) => (teamGoals[a] > teamGoals[b] ? a : b));
 }
 
 console.log(getGoals(getFinals(fifaData)));
@@ -195,25 +192,21 @@ console.log(getGoals(getFinals(fifaData)));
 Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals scored against them per appearance (average goals against) in the World Cup finals */
 
 function badDefense() {
-
-    /* code here */
-
+  /* code here */
 }
-
 
 /* If you still have time, use the space below to work on any stretch goals of your chosing as listed in the README file. */
 
-
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
 function foo() {
-    console.log('its working');
-    return 'bar';
+  console.log('its working');
+  return 'bar';
 }
 export default {
-    foo,
-    getFinals,
-    getYears,
-    getWinners,
-    getWinnersByYear,
-    getAverageGoals
-}
+  foo,
+  getFinals,
+  getYears,
+  getWinners,
+  getWinnersByYear,
+  getAverageGoals,
+};
